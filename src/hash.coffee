@@ -6,31 +6,18 @@ getArray = (item) ->
   else
     []
 
-# Storage array, with some helper methods
-storage = []
-storage.indexOf = (key) ->
-  for item, index in this
-    [item_key] = getArray item
-    return index if key is item_key
-  return -1
-  
-storage.valueAt = (index) ->
-  [key, value] = getArray this[index]
-  return value
-  
-storage.keyAt = (index) ->
-  [key] = getArray this[index]
-  return key
 
-module.exports = class Hash
+class @QHash
+  storage = null
   constructor: (entries = []) ->
+    storage = new QHash.Storage
     if entries instanceof Array
       for entry in entries
         @set entry...
-    else if entries instanceof Object
+    else if arguments.length is 1
       for own key, value of entries
         @set key, value
-    else if arguments.length
+    else if arguments.length is 2
       @set arguments...
         
   set: (key, value) ->
@@ -56,5 +43,81 @@ module.exports = class Hash
     for item in storage
       callback item...
   
-  Object.defineProperty Hash::, 'length',
+  getStorage: -> storage
+  
+  Object.defineProperty QHash::, 'length',
     get: -> storage.length
+    
+  # Storage array, with some helper methods
+  class @Storage extends Array
+    constructor: (arr) ->
+      if arr instanceof Array
+        for item in arr
+          @push[item] if item instanceof Array and 0 < item.length < 3
+      
+    indexOf: (key) ->
+      for item, index in this
+        [item_key] = getArray item
+        return index if key is item_key
+      return -1
+
+    valueAt: (index) ->
+      [key, value] = getArray this[index]
+      return value
+
+    keyAt: (index) ->
+      [key] = getArray this[index]
+      return key
+    
+    sort: ->
+      arr = for entry in this then entry
+      arr.sort()
+  
+@Hash = class @HashTable
+  constructor: (entries = []) ->
+    if entries instanceof Array
+      for entry in entries
+        @set entry...
+    else if entries instanceof Object
+      for own key, value of entries
+        @set key, value
+    else if arguments.length
+      @set arguments...
+  
+  set: (obj, value) ->
+    @[HashTable.key obj] = value;
+    
+  get: (obj) ->
+    @[HashTable.key obj]
+    
+  @sortedObjectClone: (obj) ->
+    if obj instanceof RegExp
+      re = obj
+      obj = "object-type": "RegExp", "object-value": re.toString()
+    else if typeof obj is "function"
+      fn = obj
+      obj = "object-type": "Function", "object-value": fn.toString()
+    else if obj instanceof Array
+      arr = obj
+      obj = {}
+      for own key, value of arr
+        obj[key] = value
+    else if obj not instanceof Object
+      console.log obj
+      val = obj
+      obj = "object-type": typeof val, "object-value": val.toString()
+
+    clone = new exports.QHash obj
+    clone.forEach (key, value) =>
+      if value instanceof Object
+        clone.set key, @sortedObjectClone value
+
+    clone = clone.getStorage()
+    clone.sort()
+
+  @stringify: (obj) ->
+    clone = @sortedObjectClone obj
+    JSON.stringify clone
+    
+  @key: @stringify.bind this
+    
