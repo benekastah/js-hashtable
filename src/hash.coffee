@@ -19,7 +19,8 @@ class @QHash
         @set key, value
     else if arguments.length is 2
       @set arguments...
-        
+    null
+  
   set: (key, value) ->
     if index = storage.indexOf(key) >= 0
       storage[index][1] = value;
@@ -54,20 +55,21 @@ class @QHash
       if arr instanceof Array
         for item in arr
           @push[item] if item instanceof Array and 0 < item.length < 3
+      null
       
     indexOf: (key) ->
       for item, index in this
         [item_key] = getArray item
         return index if key is item_key
-      return -1
+      -1
 
     valueAt: (index) ->
       [key, value] = getArray this[index]
-      return value
+      value
 
     keyAt: (index) ->
       [key] = getArray this[index]
-      return key
+      key
     
     sort: ->
       arr = for entry in this then entry
@@ -83,6 +85,7 @@ class @QHash
         @set key, value
     else if arguments.length
       @set arguments...
+    null
   
   set: (obj, value) ->
     @[HashTable.key obj] = value;
