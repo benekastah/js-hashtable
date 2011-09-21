@@ -13,7 +13,7 @@ not check to see if two keys are similar enough to be declared equal (for the mo
 if you pass in an object as a key, only that object will be able to retrieve the value. In this way,
 QHash offers more security than `HashTable`.
 
-```
+```javascript
 var bob, hash, apiKey;
 bob = new Person('Bob');
 
@@ -40,7 +40,7 @@ not be accounted for.
 Like `QHash`, `HashTable` supports the `get`, `set` and `remove` functions, but we now have a little
 extra.
 
-```
+```javascript
 var routes, hkey = Hash.key;
 
 routes = new Hash();
