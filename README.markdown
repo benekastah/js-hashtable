@@ -2,6 +2,12 @@
 
 An easy way to use anything you need/want as a key to a hash.
 
+Install:
+
+```
+$ npm install hashtable
+```
+
 ## API
 
 There are two classes for your hashtable pleasure:
