@@ -47,7 +47,6 @@
       } else if (arguments.length === 2) {
         this.set.apply(this, arguments);
       }
-      null;
     }
     QHash.prototype.set = function(key, value) {
       var index;
@@ -65,7 +64,7 @@
       var index, ret;
       index = storage.indexOf(key);
       if (index >= 0) {
-        ret = this.get(key);
+        ret = storage.valueAt(index);
         storage = (storage.slice(0, index)).concat(storage.slice(index + 1));
       } else {
         ret = false;
@@ -101,7 +100,6 @@
             }
           }
         }
-        null;
       }
       Storage.prototype.indexOf = function(key) {
         var index, item, item_key, _len;
@@ -161,13 +159,22 @@
       } else if (arguments.length) {
         this.set.apply(this, arguments);
       }
-      null;
     }
     HashTable.prototype.set = function(obj, value) {
       return this[HashTable.key(obj)] = value;
     };
     HashTable.prototype.get = function(obj) {
       return this[HashTable.key(obj)];
+    };
+    HashTable.prototype.remove = function(obj) {
+      var ret;
+      ret = get(obj);
+      delete this[HashTable.key(obj)];
+      if (ret != null) {
+        return ret;
+      } else {
+        return false;
+      }
     };
     HashTable.sortedObjectClone = function(obj) {
       var arr, clone, fn, key, num, re, val, value;

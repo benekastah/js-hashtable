@@ -41,7 +41,7 @@ class @QHash
   remove: (key) ->
     index = storage.indexOf key
     if index >= 0
-      ret = @get(key)
+      ret = storage.valueAt index
       storage = (storage.slice 0, index).concat storage.slice index + 1
     else
       ret = false
@@ -97,7 +97,12 @@ class @QHash
     
   get: (obj) ->
     @[HashTable.key obj]
-    
+  
+  remove: (obj) ->
+    ret = get obj
+    delete @[HashTable.key obj]
+    if ret? then ret else false
+  
   @sortedObjectClone: (obj) ->
     if obj instanceof RegExp
       re = obj
