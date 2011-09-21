@@ -1,0 +1,15 @@
+{
+    "name": "hashtable"
+  , "description": "Hashtables in javascript. Use *anything* as a key, not just strings."
+  , "keywords": [
+      "hash"
+    , "hashtable"
+    , "hash table"
+  ]
+  , "version": "0.0.1"
+  , "private": false
+  , "main": "./hash"
+  , "author": "Paul Harper <benekastah@gmail.com>"
+  , "homepage": ""
+  , "repository": ""
+}
