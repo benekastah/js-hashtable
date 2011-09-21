@@ -58,7 +58,7 @@
       index = storage.indexOf(key);
       if (index >= 0) {
         ret = this.get(key);
-        storage = storage.slice(0, index).concat(storage.slice(index + 1));
+        storage = (storage.slice(0, index)).concat(storage.slice(index + 1));
       } else {
         ret = false;
       }
@@ -95,11 +95,18 @@
         }
       }
       Storage.prototype.indexOf = function(key) {
-        var index, item, item_key, _len;
+        var egal, index, item, item_key, _len;
+        egal = function(a, b) {
+          if (a === b) {
+            return a !== 0 || 1 / a === 1 / b;
+          } else {
+            return a !== a && b !== b;
+          }
+        };
         for (index = 0, _len = this.length; index < _len; index++) {
           item = this[index];
           item_key = getArray(item)[0];
-          if (key === item_key) {
+          if (egal(key, item_key)) {
             return index;
           }
         }
