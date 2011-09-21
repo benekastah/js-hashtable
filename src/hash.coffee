@@ -102,8 +102,12 @@ class @QHash
       obj = {}
       for own key, value of arr
         obj[key] = value
+    else if typeof obj is "number"
+      num = obj
+      if val is 0 and 1/val is -Infinity
+        num = "-0"
+      obj = "object-type": "number", "object-value": num.toString()
     else if obj not instanceof Object
-      console.log obj
       val = obj
       obj = "object-type": typeof val, "object-value": val.toString()
 

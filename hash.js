@@ -160,7 +160,7 @@
       return this[HashTable.key(obj)];
     };
     HashTable.sortedObjectClone = function(obj) {
-      var arr, clone, fn, key, re, val, value;
+      var arr, clone, fn, key, num, re, val, value;
       if (obj instanceof RegExp) {
         re = obj;
         obj = {
@@ -181,8 +181,16 @@
           value = arr[key];
           obj[key] = value;
         }
+      } else if (typeof obj === "number") {
+        num = obj;
+        if (val === 0 && 1 / val === -Infinity) {
+          num = "-0";
+        }
+        obj = {
+          "object-type": "number",
+          "object-value": num.toString()
+        };
       } else if (!(obj instanceof Object)) {
-        console.log(obj);
         val = obj;
         obj = {
           "object-type": typeof val,
