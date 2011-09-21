@@ -40,6 +40,7 @@
       } else if (arguments.length === 2) {
         this.set.apply(this, arguments);
       }
+      null;
     }
     QHash.prototype.set = function(key, value) {
       var index;
@@ -93,6 +94,7 @@
             }
           }
         }
+        null;
       }
       Storage.prototype.indexOf = function(key) {
         var egal, index, item, item_key, _len;
@@ -159,6 +161,7 @@
       } else if (arguments.length) {
         this.set.apply(this, arguments);
       }
+      null;
     }
     HashTable.prototype.set = function(obj, value) {
       return this[HashTable.key(obj)] = value;
