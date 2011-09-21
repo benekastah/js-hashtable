@@ -1,5 +1,5 @@
 (function() {
-  var getArray;
+  var egal, getArray;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -15,6 +15,13 @@
       return [item];
     } else {
       return [];
+    }
+  };
+  egal = function(a, b) {
+    if (a === b) {
+      return a !== 0 || 1 / a === 1 / b;
+    } else {
+      return a !== a && b !== b;
     }
   };
   this.QHash = (function() {
@@ -97,14 +104,7 @@
         null;
       }
       Storage.prototype.indexOf = function(key) {
-        var egal, index, item, item_key, _len;
-        egal = function(a, b) {
-          if (a === b) {
-            return a !== 0 || 1 / a === 1 / b;
-          } else {
-            return a !== a && b !== b;
-          }
-        };
+        var index, item, item_key, _len;
         for (index = 0, _len = this.length; index < _len; index++) {
           item = this[index];
           item_key = getArray(item)[0];
