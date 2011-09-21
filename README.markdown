@@ -45,7 +45,7 @@ var routes, hkey = Hash.key;
 
 routes = new Hash();
 // Define a route in your routes hash
-routes.set(/^\/user/all(\.json)?$/, UsersController.displayAll);
+routes.set(/^\/user\/all(\.json)?$/, UsersController.displayAll);
 // Two ways to do the same thing
 routes[hkey( /^\/user\/(\d*)$/ )] = UsersController.displayById;
 ```
