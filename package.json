@@ -10,6 +10,9 @@
   , "private": false
   , "main": "./hash"
   , "author": "Paul Harper <benekastah@gmail.com>"
-  , "homepage": ""
-  , "repository": ""
+  , "homepage": "https://github.com/benekastah/js-hashtable"
+  , "repository": {
+      "type": "git"
+    , "url": "git@github.com:benekastah/js-hashtable.git"
+  }
 }
