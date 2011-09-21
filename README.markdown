@@ -16,16 +16,16 @@ QHash offers more security than `HashTable`.
 ```javascript
 var bob, hash, apiKey;
 bob = new Person('Bob');
-
-hash = new QHash();
 apiKey = new SomeLongUniqueThing();
-hash.set(bob, apiKey); // -> apiKey
 
-hash.get(bob); // -> apiKey
+apiKeys = new QHash();
+apiKeys.set(bob, apiKey); // -> apiKey
 
-hash.set(bob, null); // -> null
-hash.remove(bob); // -> null
-hash.get(bob); // -> undefined
+apiKeys.get(bob); // -> apiKey
+
+apiKeys.set(bob, null); // -> null
+apiKeys.remove(bob); // -> null
+apiKeys.get(bob); // -> undefined
 ```
 
 ### HashTable
