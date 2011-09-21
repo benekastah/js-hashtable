@@ -56,9 +56,17 @@ class @QHash
           @push[item] if item instanceof Array and 0 < item.length < 3
       
     indexOf: (key) ->
-      for item, index in this
+      # egal: see http://wiki.ecmascript.org/doku.php?id=harmony:egal
+      egal = (a, b) ->
+        if a is b
+          # 0 is not -0
+          a isnt 0 or 1/a is 1/b
+        else
+          # NaN is NaN
+          a isnt a and b isnt b
+      for own item, index in this
         [item_key] = getArray item
-        return index if key is item_key
+        return index if egal key, item_key
       return -1
 
     valueAt: (index) ->
