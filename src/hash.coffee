@@ -28,13 +28,13 @@ class @QHash
     value
     
   get: (key) ->
-    storage.valueAt(storage.indexOf key)
+    storage.valueAt storage.indexOf key
   
   remove: (key) ->
     index = storage.indexOf key
     if index >= 0
       ret = @get(key)
-      storage = storage.slice(0, index).concat(storage.slice index+1)
+      storage = (storage.slice 0, index).concat storage.slice index + 1
     else
       ret = false
     ret
