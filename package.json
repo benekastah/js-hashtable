@@ -6,9 +6,12 @@
     , "hashtable"
     , "hash table"
   ]
-  , "version": "0.0.2"
+  , "version": "0.0.3"
   , "main": "./hash"
   , "author": "Paul Harper <benekastah@gmail.com>"
+  , "contributors": [
+      "Michael Ficarra"
+  ]
   , "homepage": "https://github.com/benekastah/js-hashtable"
   , "repository": {
       "type": "git"
