@@ -1,7 +1,7 @@
 getArray = (item) ->
   if item instanceof Array
     item
-  else if item isnt undefined
+  else if item?
     [item]
   else
     []
@@ -15,46 +15,48 @@ egal = (a, b) ->
     # NaN is NaN
     a isnt a and b isnt b
 
+fileScope = this
+
 class @QHash
-  storage = null
   constructor: (entries = []) ->
-    storage = new QHash.Storage
-    if entries instanceof Array
+    @storage = new QHash.Storage()
+    argslen = arguments.length
+    if entries instanceof Array and argslen is 1
       for entry in entries
         @set entry...
-    else if arguments.length is 1
+    else if argslen is 1
       for own key, value of entries
         @set key, value
-    else if arguments.length is 2
+    else if argslen is 2
       @set arguments...
   
   set: (key, value) ->
-    if index = storage.indexOf(key) >= 0
-      storage[index][1] = value;
+    if (index = @storage.indexOf key) >= 0
+      @storage[index][1] = value;
     else
-      storage.push [key, value]
+      @storage.push [key, value]
     value
     
   get: (key) ->
-    storage.valueAt storage.indexOf key
+    @storage.valueAt @storage.indexOf key
   
   remove: (key) ->
-    index = storage.indexOf key
+    index = @storage.indexOf key
     if index >= 0
-      ret = storage.valueAt index
-      storage = (storage.slice 0, index).concat storage.slice index + 1
+      ret = @storage.valueAt index
+      @storage = (@storage.slice 0, index).concat @storage.slice index + 1
     else
       ret = false
     ret
   
   forEach: (callback) ->
-    for item in storage
+    for item in @storage
       callback item...
   
-  getStorage: -> storage
+  getStorage: -> @storage
   
   Object.defineProperty QHash::, 'length',
-    get: -> storage.length
+    get: -> @storage.length
     
   # Storage array, with some helper methods
   class @Storage extends Array
@@ -64,7 +66,7 @@ class @QHash
           @push[item] if item instanceof Array and 0 < item.length < 3
 
     indexOf: (key) ->
-      for own item, index in this
+      for item, index in this
         [item_key] = getArray item
         return index if egal key, item_key
       -1
@@ -124,7 +126,7 @@ class @QHash
       val = obj
       obj = "object-type": typeof val, "object-value": val.toString()
 
-    clone = new exports.QHash obj
+    clone = new fileScope.QHash obj
     clone.forEach (key, value) =>
       if value instanceof Object
         clone.set key, @sortedObjectClone value

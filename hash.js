@@ -1,5 +1,5 @@
 (function() {
-  var egal, getArray;
+  var egal, fileScope, getArray;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -11,7 +11,7 @@
   getArray = function(item) {
     if (item instanceof Array) {
       return item;
-    } else if (item !== void 0) {
+    } else if (item != null) {
       return [item];
     } else {
       return [];
@@ -24,68 +24,69 @@
       return a !== a && b !== b;
     }
   };
+  fileScope = this;
   this.QHash = (function() {
-    var storage;
-    storage = null;
     function QHash(entries) {
-      var entry, key, value, _i, _len;
+      var argslen, entry, key, value, _i, _len;
       if (entries == null) {
         entries = [];
       }
-      storage = new QHash.Storage;
-      if (entries instanceof Array) {
+      this.storage = new QHash.Storage();
+      argslen = arguments.length;
+      if (entries instanceof Array && argslen === 1) {
         for (_i = 0, _len = entries.length; _i < _len; _i++) {
           entry = entries[_i];
           this.set.apply(this, entry);
         }
-      } else if (arguments.length === 1) {
+      } else if (argslen === 1) {
         for (key in entries) {
           if (!__hasProp.call(entries, key)) continue;
           value = entries[key];
           this.set(key, value);
         }
-      } else if (arguments.length === 2) {
+      } else if (argslen === 2) {
         this.set.apply(this, arguments);
       }
     }
     QHash.prototype.set = function(key, value) {
       var index;
-      if (index = storage.indexOf(key) >= 0) {
-        storage[index][1] = value;
+      if ((index = this.storage.indexOf(key)) >= 0) {
+        this.storage[index][1] = value;
       } else {
-        storage.push([key, value]);
+        this.storage.push([key, value]);
       }
       return value;
     };
     QHash.prototype.get = function(key) {
-      return storage.valueAt(storage.indexOf(key));
+      return this.storage.valueAt(this.storage.indexOf(key));
     };
     QHash.prototype.remove = function(key) {
       var index, ret;
-      index = storage.indexOf(key);
+      index = this.storage.indexOf(key);
       if (index >= 0) {
-        ret = storage.valueAt(index);
-        storage = (storage.slice(0, index)).concat(storage.slice(index + 1));
+        ret = this.storage.valueAt(index);
+        this.storage = (this.storage.slice(0, index)).concat(this.storage.slice(index + 1));
       } else {
         ret = false;
       }
       return ret;
     };
     QHash.prototype.forEach = function(callback) {
-      var item, _i, _len, _results;
+      var item, _i, _len, _ref, _results;
+      _ref = this.storage;
       _results = [];
-      for (_i = 0, _len = storage.length; _i < _len; _i++) {
-        item = storage[_i];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
         _results.push(callback.apply(null, item));
       }
       return _results;
     };
     QHash.prototype.getStorage = function() {
-      return storage;
+      return this.storage;
     };
     Object.defineProperty(QHash.prototype, 'length', {
       get: function() {
-        return storage.length;
+        return this.storage.length;
       }
     });
     QHash.Storage = (function() {
@@ -214,7 +215,7 @@
           "object-value": val.toString()
         };
       }
-      clone = new exports.QHash(obj);
+      clone = new fileScope.QHash(obj);
       clone.forEach(__bind(function(key, value) {
         if (value instanceof Object) {
           return clone.set(key, this.sortedObjectClone(value));
