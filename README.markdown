@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/benekastah/js-hashtable.png)](http://travis-ci.org/benekastah/js-hashtable)
 # JS HashTable
 
 An easy way to use anything you need/want as a key to a hash.
