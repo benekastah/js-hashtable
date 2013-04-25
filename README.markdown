@@ -4,8 +4,10 @@ An easy way to use anything you need/want as a key to a hash.
 
 Install:
 
+The npm module name used to be hashtable, but I renamed it because someone else
+requested to use it and I haven't updated this project in a couple years.
 ```
-$ npm install hashtable
+$ npm install js-hashtable
 ```
 
 ## API

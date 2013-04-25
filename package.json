@@ -1,5 +1,5 @@
 {
-    "name": "hashtable"
+    "name": "js-hashtable"
   , "description": "Hashtables in javascript. Use *anything* as a key, not just strings."
   , "keywords": [
       "hash"
